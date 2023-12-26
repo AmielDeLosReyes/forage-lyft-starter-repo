@@ -9,5 +9,7 @@ class WilloughbyEngine(Car, ABC):
         self.current_mileage = current_mileage
         self.last_service_mileage = last_service_mileage
 
+    # Function to check if engine should be serviced
+    # Condition: Once every 60,000 miles
     def engine_should_be_serviced(self):
         return self.current_mileage - self.last_service_mileage > 60000
