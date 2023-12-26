@@ -53,7 +53,7 @@ class SpindlerBattery(CarPart):
     def __init__(self):
         # Set the service interval for Spindler Battery based on years
         # service_interval = timedelta(days=365 * 2)  # 2 years
-        service_interval = timedelta(days=365 * 3)  # 3 years
+        service_interval = timedelta(days=365 * 3)  # Updated to 3 years
         super().__init__(last_service_date=date.today(), service_interval=service_interval)
 
     def needs_service(self) -> bool:
@@ -70,50 +70,56 @@ class NubbinBattery(CarPart):
 
 # Car class
 class Car(Serviceable):
-    def __init__(self, engine: CarPart, battery: CarPart):
+    def __init__(self, engine: CarPart, battery: CarPart, tires: CarPart):
         self.engine = engine
         self.battery = battery
+        self.tires = tires  # New addition for tires
 
     def needs_service(self) -> bool:
-        # Check if either the engine or battery needs service
-        return self.engine.needs_service() or self.battery.needs_service()
+        # Check if either the engine, battery, or tires need service
+        return self.engine.needs_service() or self.battery.needs_service() or self.tires.needs_service()
 
 # CarFactory class
 class CarFactory:
     @staticmethod
-    def create_calliope() -> Car:
+    def create_calliope(tire_wear: list) -> Car:
         engine = CapuletEngine(last_service_mileage=0, current_mileage=0)
         battery = SpindlerBattery()
-        return Car(engine, battery)
+        tires = CarPart(last_service_date=date.today(), service_interval=timedelta(days=365))  # Placeholder for tire part
+        return Car(engine, battery, tires)
 
     @staticmethod
-    def create_glissade() -> Car:
+    def create_glissade(tire_wear: list) -> Car:
         engine = WilloughbyEngine(last_service_mileage=0, current_mileage=0)
         battery = SpindlerBattery()
-        return Car(engine, battery)
+        tires = CarPart(last_service_date=date.today(), service_interval=timedelta(days=365))  # Placeholder for tire part
+        return Car(engine, battery, tires)
 
     @staticmethod
-    def create_palindrome(warning_light_on: bool) -> Car:
+    def create_palindrome(warning_light_on: bool, tire_wear: list) -> Car:
         engine = SternmanEngine(warning_light_on)
         battery = SpindlerBattery()
-        return Car(engine, battery)
+        tires = CarPart(last_service_date=date.today(), service_interval=timedelta(days=365))  # Placeholder for tire part
+        return Car(engine, battery, tires)
 
     @staticmethod
-    def create_rorschach() -> Car:
+    def create_rorschach(tire_wear: list) -> Car:
         engine = WilloughbyEngine(last_service_mileage=0, current_mileage=0)
         battery = NubbinBattery()
-        return Car(engine, battery)
+        tires = CarPart(last_service_date=date.today(), service_interval=timedelta(days=365))  # Placeholder for tire part
+        return Car(engine, battery, tires)
 
     @staticmethod
-    def create_thovex() -> Car:
+    def create_thovex(tire_wear: list) -> Car:
         engine = CapuletEngine(last_service_mileage=0, current_mileage=0)
         battery = NubbinBattery()
-        return Car(engine, battery)
+        tires = CarPart(last_service_date=date.today(), service_interval=timedelta(days=365))  # Placeholder for tire part
+        return Car(engine, battery, tires)
 
 # Usage example
 if __name__ == "__main__":
-    # Creating a Calliope car using the CarFactory
-    calliope_car = CarFactory.create_calliope()
+    # Creating a Calliope car using the CarFactory with placeholder tire_wear values
+    calliope_car = CarFactory.create_calliope(tire_wear=[0.2, 0.3, 0.4, 0.5])
 
     # Checking if the car needs service
     if calliope_car.needs_service():
